@@ -1,9 +1,11 @@
-import 'package:flutter/animation.dart';
+import 'dart:async';
+import 'package:quiver/async.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:testing_app/Signup/signup_screen.dart';
 import 'package:testing_app/constants.dart';
 import 'package:testing_app/Login/login_screen.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:testing_app/NetworkHandler/signuphandler.dart';
 import 'package:email_validator/email_validator.dart';
 
 class SignUpVerification extends StatelessWidget {
@@ -11,33 +13,48 @@ class SignUpVerification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _MediaQueryWidgetSignUp(),
+      body: _SignUp(),
     );
   }
 }
 
-class _MediaQueryWidgetSignUp extends StatefulWidget {
+class _SignUp extends StatefulWidget {
   @override
-  State createState() => _MediaQueryWidgetStateSignUp();
+  State createState() => _SignUpstatefulwidget();
 }
 
-class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
-
+class _SignUpstatefulwidget extends State<_SignUp> {
   bool suffixcheck = true;
   IconData iconvisibility = Icons.visibility;
-  List<String> listitems = [
-  'Tourist',
-  'Tour Company',
-  'Driver',
-  'Tour Guide',
-  'Hotel'
-  ];
-  String name="";
-  String? password;
-  String? password2;
-  String? dropdownValue;
+  String email = "";
+  bool checkverification = true;
+  int testotp = 0;
+  int onetimep = 0;
+  int _start = 20;
+  dynamic _current = 0;
+  bool generateotp = false;
+  //var _scaffoldKey = GlobalKey<ScaffoldState>();
+  CountdownTimer? countDownTimer;
+  late dynamic sub=null;
+  void startTimer() {
 
+    countDownTimer = CountdownTimer(
+      Duration(seconds: _start),
+      Duration(seconds: 1),
+    );
+    sub = countDownTimer!.listen(null);
+    sub.onData((duration) {
+      setState(() {
+        _current = _start - duration.elapsed.inSeconds;
+      });
+    });
 
+    sub.onDone(() {
+      print("Done");
+      generateotp = false;
+      sub.cancel();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +83,7 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
             left: 0,
           ),
           Positioned(
-            top: size.height * 0.08,
+            bottom: size.height * 0.65,
             child: Image.asset(
               "assets/images/signupbackground1.png",
               width: size.width * 0.6,
@@ -75,7 +92,7 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
           SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                SizedBox(height: size.height * 0.05),
+                SizedBox(height: size.height * 0.1),
                 const Text(
                   ("Signup "),
                   style: TextStyle(
@@ -96,41 +113,85 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                 // SizedBox(height: size.height * 0.05),
 
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  margin: const EdgeInsets.only(top: 5),
                   padding:
-                  // const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-                  const EdgeInsets.only(left:20,top: 2,bottom: 2,right: 3),
+                      // const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                      const EdgeInsets.only(
+                          left: 20, top: 2, bottom: 2, right: 3),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
                     color: kPrimaryLightColor,
                     borderRadius: BorderRadius.circular(29),
                   ),
                   child: TextField(
+                    key: ValueKey("Email"),
                     textInputAction: TextInputAction.next,
                     onChanged: (value) {
-                      name = value;
+                      email = value;
                     },
                     cursorColor: kPrimaryColor,
-                    decoration: InputDecoration(
-                      icon:const Icon(
+                    decoration: const InputDecoration(
+                      icon: Icon(
                         Icons.person,
                         color: kPrimaryColor,
                       ),
                       hintText: "Email",
                       border: InputBorder.none,
-                      suffixIcon: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (password != password2 ) {
+                      // suffixIcon: ClipRRect(
+                      //   borderRadius: BorderRadius.circular(30),
+                      //   child: ElevatedButton(
+                      //     onPressed: () {
+                      //       if (password != password2) {
+                      //         ScaffoldMessenger.of(context).showSnackBar(
+                      //           const SnackBar(
+                      //             duration: Duration(milliseconds: 1000),
+                      //             backgroundColor: kPrimaryColor,
+                      //             content: Text(
+                      //               // "Password is not matched and Email is not correct",
+                      //               "OTP Sent",
+                      //               style: TextStyle(
+                      //                   color: korangeColor,
+                      //                   fontWeight: FontWeight.bold,
+                      //                   fontFamily: fontfamily),
+                      //               textAlign: TextAlign.center,
+                      //             ),
+                      //           ),
+                      //         );
+                      //       }
+                      //     },
+                      //     child: const Text(
+                      //       "Send Otp",
+                      //       style: TextStyle(color: kPrimaryLightColor),
+                      //     ),
+                      //     style: ElevatedButton.styleFrom(
+                      //       primary: kPrimaryColor,
+                      //       textStyle: const TextStyle(
+                      //           color: korangeColor,
+                      //           fontSize: 14,
+                      //           fontFamily: fontfamily,
+                      //           fontWeight: FontWeight.w500),
+                      //     ),
+                      //   ),
+                      // ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    margin: EdgeInsets.only(right: size.width * 0.15),
+                    child: TextButton(
+
+                      onPressed: generateotp
+                          ? () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                SnackBar(
                                   duration: Duration(milliseconds: 1000),
                                   backgroundColor: kPrimaryColor,
                                   content: Text(
                                     // "Password is not matched and Email is not correct",
-                                    "OTP Sent",
-                                    style:  TextStyle(
+                                    "Wait for $_current seconds before retrying",
+                                    style: const TextStyle(
                                         color: korangeColor,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: fontfamily),
@@ -139,38 +200,88 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                                 ),
                               );
                             }
-                          },
-                          child: const Text(
-                            "Sent Otp",
-                            style: TextStyle(color: kPrimaryLightColor),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: kPrimaryColor,
+                          : () async {
+                              // generateotp = true;
+                              if (EmailValidator.validate(email)) {
+                                NetworkHandlerSignupOTP getdata =
+                                    NetworkHandlerSignupOTP();
+                                dynamic check =
+                                    await getdata.getOtp(email, context);
+                                if(check!=null){
+                                  generateotp = true;
+                                  testotp = check;
+                                  startTimer();
+                                  print("Test otp dynamic $testotp");
+                                }
 
-                            textStyle: const TextStyle(
-                                color: korangeColor,
-                                fontSize: 14,
-                                fontFamily: fontfamily,
-                                fontWeight: FontWeight.w500),
-                          ),
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    duration: Duration(milliseconds: 1000),
+                                    backgroundColor: kPrimaryColor,
+                                    content: Text(
+                                      // "Password is not matched and Email is not correct",
+                                      "Enter Correct Email",
+                                      style: TextStyle(
+                                          color: korangeColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: fontfamily),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   const SnackBar(
+                              //     duration: Duration(milliseconds: 1000),
+                              //     backgroundColor: kPrimaryColor,
+                              //     content: Text(
+                              //       // "Password is not matched and Email is not correct",
+                              //       "OTP Sent",
+                              //       style: TextStyle(
+                              //           color: korangeColor,
+                              //           fontWeight: FontWeight.bold,
+                              //           fontFamily: fontfamily),
+                              //       textAlign: TextAlign.center,
+                              //     ),
+                              //   ),
+                              // );
+                            },
+                      child: Text(
+                        "Send OTP",
+                        style: TextStyle(
+                          color: kPrimaryColor,
                         ),
                       ),
                     ),
                   ),
                 ),
+                //Text("$_current"),
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  margin: const EdgeInsets.only(bottom: 5),
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
                     color: kPrimaryLightColor,
                     borderRadius: BorderRadius.circular(29),
                   ),
                   child: TextField(
-                    textInputAction: TextInputAction.next,
+                    key: ValueKey("otp"),
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
                     onChanged: (value) {
-                      name = value;
+                      if (value == '') {
+                        setState(() {
+                          checkverification = true;
+                        });
+                      } else {
+                        onetimep = int.parse(value);
+                        setState(() {
+                          checkverification = false;
+                        });
+                      }
                     },
                     cursorColor: kPrimaryColor,
                     decoration: const InputDecoration(
@@ -184,26 +295,64 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  margin: const EdgeInsets.symmetric(vertical: 5),
                   width: size.width * 0.8,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: ElevatedButton(
-                      onPressed: () {
-                        Future.delayed(Duration.zero, () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const SignUpScreen();
-                              },
-                            ),
-                          );
-                        });
-                      },
-                      child: const Text(
-                        "SIGNUP",
-                        style: TextStyle(color: kPrimaryLightColor),
+                      onPressed: checkverification
+                          ? () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  duration: Duration(milliseconds: 1000),
+                                  backgroundColor: kPrimaryColor,
+                                  content: Text(
+                                    // "Password is not matched and Email is not correct",
+                                    "Enter OTP First",
+                                    style: TextStyle(
+                                        color: korangeColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: fontfamily),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              );
+                            }
+                          : () {
+                              if (onetimep == testotp) {
+                                sub.cancel();
+                                Navigator.pop(context);
+                                Future.delayed(Duration.zero, () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return SignUpScreen(email: email);
+                                      },
+                                    ),
+                                  );
+                                });
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    duration: Duration(milliseconds: 1000),
+                                    backgroundColor: kPrimaryColor,
+                                    content: Text(
+                                      // "Password is not matched and Email is not correct",
+                                      "Invalid OTP",
+                                      style: TextStyle(
+                                          color: korangeColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: fontfamily),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                      child: Text(
+                        checkverification ? "Enter Otp" : "Signup",
+                        style: const TextStyle(color: kPrimaryColor),
                       ),
                       style: ElevatedButton.styleFrom(
                         primary: korangeColor,
@@ -229,10 +378,13 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                       ),
                       GestureDetector(
                         onTap: () {
+                          if(sub!=null){
+                            sub.cancel();
+                          }
                           Navigator.pop(context);
                           Future.delayed(
                             Duration.zero,
-                                () {
+                            () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

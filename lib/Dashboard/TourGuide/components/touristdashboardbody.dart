@@ -5,12 +5,12 @@ import 'popularplacesview.dart';
 import 'itemundersearchbar.dart';
 
 
-class UserDashboardTourist extends StatefulWidget {
+class UserDashboardTourGuide extends StatefulWidget {
   @override
   State createState() => _UserDashboard();
 }
 
-class _UserDashboard extends State<UserDashboardTourist> {
+class _UserDashboard extends State<UserDashboardTourGuide> {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
@@ -62,7 +62,7 @@ class _UserDashboard extends State<UserDashboardTourist> {
                       height: size.height * 0.01,
                     ),
                     Text(
-                      "Tourism",
+                      "Tour Guide",
                       style: TextStyle(
                         fontSize: (73 / 414.0) * size.width,
                         fontWeight: FontWeight.bold,
@@ -71,7 +71,7 @@ class _UserDashboard extends State<UserDashboardTourist> {
                       ),
                     ),
                     const Text(
-                      "All you need for tour",
+                      "Dashboard",
                       style: TextStyle(color: kPrimaryLightColor),
                     ),
                   ],

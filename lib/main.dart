@@ -6,6 +6,22 @@ void main() {
   runApp(const MyApp());
 }
 
+//
+// SharedPreferences prefs = await SharedPreferences.getInstance();
+// prefs?.setBool("isLoggedIn", true);
+//
+// Future<void> main() async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   var status = prefs.getBool('isLoggedIn') ?? false;
+//   print(status);
+//   runApp(MaterialApp(home: status == true ? Login() : Home()));
+// }
+//
+
+
+
+
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -20,17 +36,17 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: _MediaQueryWidgetWelcome(),
+      home: WelcomeScreen(),
     );
   }
 }
 
-class _MediaQueryWidgetWelcome extends StatefulWidget {
+class WelcomeScreen extends StatefulWidget {
   @override
-  State createState() => _MediaQueryWidgetStateWelcome();
+  State createState() => WidgetStateWelcome();
 }
 
-class _MediaQueryWidgetStateWelcome extends State<_MediaQueryWidgetWelcome> {
+class WidgetStateWelcome extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
@@ -112,7 +128,6 @@ class _MediaQueryWidgetStateWelcome extends State<_MediaQueryWidgetWelcome> {
                         borderRadius: BorderRadius.circular(50),
                         child: ElevatedButton(
                           onPressed: () {
-                            Future.delayed(Duration.zero, () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -121,7 +136,6 @@ class _MediaQueryWidgetStateWelcome extends State<_MediaQueryWidgetWelcome> {
                                   },
                                 ),
                               );
-                            });
                           },
                           child: const Text(
                             "Let's Get Started",
@@ -132,7 +146,7 @@ class _MediaQueryWidgetStateWelcome extends State<_MediaQueryWidgetWelcome> {
                           style: ElevatedButton.styleFrom(
                             primary:korangeColor,
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 15),
+                                horizontal: 30, vertical: 12),
                             textStyle: const TextStyle(
                                 fontSize: 20,
                                 fontFamily: fontfamily,

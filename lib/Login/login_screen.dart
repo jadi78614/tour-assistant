@@ -1,9 +1,12 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:testing_app/constants.dart';
 import 'package:testing_app/Signup/singupemailverification.dart';
-import 'package:testing_app/TouristDashboard/user_dashboard.dart';
 import 'package:testing_app/Forgotpassword/forgotpassword.dart';
+import 'package:testing_app/NetworkHandler/logindata.dart' ;
+
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -18,18 +21,18 @@ class LoginScreen extends StatelessWidget {
 
 class _MediaQueryWidgetLogin extends StatefulWidget {
   @override
-  State createState() => _MediaQueryWidgetStateLogin();
+  State createState() => MediaQueryWidgetStateLogin();
 }
 
-class _MediaQueryWidgetStateLogin extends State<_MediaQueryWidgetLogin> {
+class MediaQueryWidgetStateLogin extends State<_MediaQueryWidgetLogin> {
   bool suffixcheck = true;
   IconData iconvisibility = Icons.visibility;
+  bool iskeyboardon = true;
+  String email ='';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
-    final iskeyboardon = MediaQuery.of(context).viewInsets.bottom != 0;
-
-    //print("Key board check $iskeyboardon");
     assert(debugCheckHasMediaQuery(context));
     Size size = MediaQuery.of(context).size;
     return SizedBox(
@@ -56,23 +59,14 @@ class _MediaQueryWidgetStateLogin extends State<_MediaQueryWidgetLogin> {
           // ),
           //if (!iskeyboardon) buildLogo(size),
           Positioned(
-            top: 0,
-            child: Container(
-              decoration: BoxDecoration(color: korangeDarkcolor,
-              image: DecorationImage(
-               image: AssetImage(
-                  "assets/images/loginbackground.png",
-
-                ),
-                fit: BoxFit.cover,
-
-              ) ),
-              // child: Image.asset(
-              //   "assets/images/loginbackground.png",
-              //   width: size.width * 0.55,
-              // ),
+          bottom: size.height * 0.68,
+            child: Image.asset(
+              "assets/images/loginbackground.png",
+              width: size.width * 0.47,
             ),
           ),
+          // if(iskeyboardon)
+          //   buildloginimage(size),
 
           // Positioned(
           //   bottom: size.height * 0.6,
@@ -86,220 +80,240 @@ class _MediaQueryWidgetStateLogin extends State<_MediaQueryWidgetLogin> {
           //     textAlign: TextAlign.center,
           //   ),
           // ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              padding: EdgeInsets.all(30),
-              width: size.width,
+          SingleChildScrollView(
 
-              decoration:const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50)),
-                color: kPrimaryLightColor,
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    // const Text(
-                    //   ("Login "),
-                    //   style: TextStyle(
-                    //     fontWeight: FontWeight.w900,
-                    //     fontSize: 40,
-                    //     color: kPrimaryColor,
-                    //   ),
-                    //   textAlign: TextAlign.center,
-                    // ),
-                    //SizedBox(height: size.height * 0.22),
-                    const Text(
-                      ("Login "),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 60,
-                        color: korangeColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: size.height * 0.05),
+                // const Text(
+                //   ("Login "),
+                //   style: TextStyle(
+                //     fontWeight: FontWeight.w900,
+                //     fontSize: 40,
+                //     color: kPrimaryColor,
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
+                //SizedBox(height: size.height * 0.22),
+                const Text(
+                  ("Login "),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 60,
+                    color: korangeColor,
+
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+
+                // ClipRRect(
+                //   borderRadius: BorderRadius.circular(100),
+                //   child: SvgPicture.asset(
+                //     "assets/icons/avatar.svg",
+                //     color: kPrimaryLightColor,
+                //   ),
+                // ),
+                //SizedBox(height: size.height * 0.02),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 2),
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                    color: kPrimaryLightColor,
+                    borderRadius: BorderRadius.circular(29),
+                  ),
+                  child: TextField(
+                    key: Key("username"),
+                    onChanged: (value) {
+                      email = value;
+                    },
+                    cursorColor: kPrimaryColor,
+                    decoration: const InputDecoration(
+                      icon: Icon(
+                        Icons.person,
+                        color: kPrimaryColor,
                       ),
-                      textAlign: TextAlign.center,
+                      hintText: "Username or Email",
+                      border: InputBorder.none,
                     ),
-
-                    // ClipRRect(
-                    //   borderRadius: BorderRadius.circular(100),
-                    //   child: SvgPicture.asset(
-                    //     "assets/icons/avatar.svg",
-                    //     color: kPrimaryLightColor,
-                    //   ),
-                    // ),
-                    //SizedBox(height: size.height * 0.02),
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 2),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: kPrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 2),
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                    color: kPrimaryLightColor,
+                    borderRadius: BorderRadius.circular(29),
+                  ),
+                  child: TextField(
+                    key: Key("password"),
+                    obscureText: suffixcheck,
+                    onChanged: (value) {
+                      password = value;
+                    },
+                    cursorColor: kPrimaryColor,
+                    decoration: InputDecoration(
+                      icon: const Icon(
+                        Icons.lock,
+                        color: kPrimaryColor,
                       ),
-                      child: TextField(
-                        onChanged: (value) {},
-                        cursorColor: kPrimaryColor,
-                        decoration: const InputDecoration(
-                          icon: Icon(
-                            Icons.person,
-                            color: kPrimaryColor,
-                          ),
-                          hintText: "Username or Email",
-                          border: InputBorder.none,
+                      hintText: "Password",
+                      border: InputBorder.none,
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (suffixcheck == true) {
+                              iconvisibility = Icons.visibility_off;
+                              suffixcheck = false;
+                            } else {
+                              suffixcheck = true;
+                              iconvisibility = Icons.visibility;
+                            }
+                            // suffixcheck=true? suffixcheck =false:suffixcheck=true;
+                          });
+                        },
+                        child: Icon(
+                          iconvisibility,
+                          color: korangeColor,
                         ),
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 2),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: kPrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: TextField(
-                        obscureText: suffixcheck,
-                        onChanged: (value) {},
-                        cursorColor: kPrimaryColor,
-                        decoration: InputDecoration(
-                          icon: const Icon(
-                            Icons.lock,
-                            color: kPrimaryColor,
-                          ),
-                          hintText: "Password",
-                          border: InputBorder.none,
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (suffixcheck == true) {
-                                  iconvisibility = Icons.visibility_off;
-                                  suffixcheck = false;
-                                } else {
-                                  suffixcheck = true;
-                                  iconvisibility = Icons.visibility;
-                                }
-                                // suffixcheck=true? suffixcheck =false:suffixcheck=true;
-                              });
-                            },
-                            child: Icon(
-                              iconvisibility,
-                              color: korangeColor,
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(right: size.width * 0.14),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const FogotPassword();
+                              },
                             ),
-                          ),
-                        ),
+                          );
+                      },
+                      child: const Text(
+                        "Forgot password ?",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(color: kPrimaryColor),
                       ),
                     ),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  width: size.width * 0.8,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if(EmailValidator.validate(email))
+                          {
+                            deactivate();
+                            NetworkHandlerLogin getdata = NetworkHandlerLogin();
+                            getdata.getData(email,password,context);
 
-                    Padding(
-                      padding: EdgeInsets.only(right: size.width * 0.14),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            Future.delayed(Duration.zero, () {
+                            print("Hello in elevated button");
+                          }
+                        else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              duration: Duration(milliseconds: 1000),
+                              backgroundColor: kPrimaryColor,
+                              content: Text(
+                                // "Password is not matched and Email is not correct",
+                                "Enter Correct Email",
+                                style: TextStyle(
+                                    color: korangeColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: fontfamily),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
+                        }
+
+
+                        // Future.delayed(
+                        //   Duration.zero,
+                        //   () {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) {
+                        //           return const UserDashboard();
+                        //         },
+                        //       ),
+                        //     );
+                        //   },
+                        // );
+                      },
+                      child: const Text(
+                        "LOGIN",
+                        style: TextStyle(color: kPrimaryLightColor),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: korangeColor,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 15),
+                        textStyle: const TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 14,
+                            fontFamily: fontfamily,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 0.1),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        "Don't have an Account ? ",
+                        style: TextStyle(color: kPrimaryColor),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Future.delayed(
+                            Duration.zero,
+                            () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return const FogotPassword();
+                                    return const SignUpVerification();
                                   },
                                 ),
                               );
-                            });
-                          },
-                          child: const Text(
-                            "Forgot password ?",
-                            textAlign: TextAlign.right,
-                            style: TextStyle(color: kPrimaryColor),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.01,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      width: size.width * 0.8,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Future.delayed(
-                              Duration.zero,
-                              () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return const UserDashboard();
-                                    },
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          child: const Text(
-                            "LOGIN",
-                            style: TextStyle(color: kPrimaryLightColor),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: korangeColor,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 15),
-                            textStyle: const TextStyle(
-                                color: kPrimaryColor,
-                                fontSize: 14,
-                                fontFamily: fontfamily,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 0.1),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Text(
-                            "Don't have an Account ? ",
-                            style: TextStyle(color: kPrimaryColor),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                              Future.delayed(
-                                Duration.zero,
-                                () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return SignUpVerification();
-                                      },
-                                    ),
-                                  );
-                                },
-                              );
                             },
-                            child: const Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: korangeColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Sign Up",
+                          style: TextStyle(
+                            color: korangeColor,
+                            fontWeight: FontWeight.bold,
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ],
@@ -307,13 +321,23 @@ class _MediaQueryWidgetStateLogin extends State<_MediaQueryWidgetLogin> {
     );
   }
 
-  Positioned buildLogo(Size size) {
+  Positioned buildloginimage(Size size) {
     return Positioned(
-      top: size.height * 0.08,
-      child: Image.asset(
-        "assets/images/loginbackground.png",
-        width: size.width * 0.55,
-      ),
-    );
+            top: size.height * 0.08,
+            child: Image.asset(
+              "assets/images/loginbackground.png",
+              width: size.width * 0.47,
+            ),
+          );
   }
+
+  // Positioned buildLogo(Size size) {
+  //   return Positioned(
+  //     top: size.height * 0.08,
+  //     child: Image.asset(
+  //       "assets/images/loginbackground.png",
+  //       width: size.width * 0.55,
+  //     ),
+  //   );
+  // }
 }

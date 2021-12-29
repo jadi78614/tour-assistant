@@ -6,10 +6,13 @@ const kPrimaryLightColor = Color(0xFFf0e5f1);
 
 const kPrimaryDarkColor = Color(0xFF19003a);
 
+const urlmongo = "10.113.55.134";
+
 const korangeColor = Color(0xFFF99746);
 const korangelightcolor = Color(0xFFffc875);
 const korangeDarkcolor = Color(0xFFc16815);
 
+const openexchangerateapikey = '9885f990fdff4ce9aa02e48977ce6eca';
 
 
 // const kSecondaryColor = Color(0xFFE15F80);

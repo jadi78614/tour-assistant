@@ -1,28 +1,35 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:testing_app/TouristDashboard/user_dashboard.dart';
+import 'package:testing_app/Dashboard//TouristDashboard/user_dashboard.dart';
 import 'package:testing_app/constants.dart';
-import 'package:testing_app/Login/login_screen.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:email_validator/email_validator.dart';
+import 'package:testing_app/NetworkHandler/signuphandler.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  final String email;
+  const SignUpScreen({Key? key,
+  required this.email}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _MediaQueryWidgetSignUp(),
+      body: SignUpAfterVerification(email: email,),
     );
   }
 }
 
-class _MediaQueryWidgetSignUp extends StatefulWidget {
+class SignUpAfterVerification extends StatefulWidget {
+
+  final email;
+  const SignUpAfterVerification({
+    Key? key,
+    required this.email
+}): super(key: key);
+
   @override
-  State createState() => _MediaQueryWidgetStateSignUp();
+  State createState() => CompletingRegistration();
 }
 
-class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
+class CompletingRegistration extends State<SignUpAfterVerification> {
   bool suffixcheck = true;
   IconData iconvisibility = Icons.visibility;
   List<String> listitems = [
@@ -36,6 +43,8 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
   String? password;
   String? password2;
   String? dropdownValue;
+  // final email;
+  //  CompletingRegistration({Key? key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +86,7 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: size.height * 0.22),
+                  //Text(widget.email),
                   const Text(
                     ("Profile "),
                     style: TextStyle(
@@ -170,6 +180,7 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                                 ),
                               ],
                             ),
+
                           );
                         }).toList(),
                         hint: Row(
@@ -218,31 +229,31 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 5),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: kPrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
-                    ),
-                    child: TextField(
-                      textInputAction: TextInputAction.next,
-                      onChanged: (value) {
-                        name = value;
-                      },
-                      cursorColor: kPrimaryColor,
-                      decoration: const InputDecoration(
-                        icon: Icon(
-                          Icons.fingerprint_outlined,
-                          color: kPrimaryColor,
-                        ),
-                        hintText: "Username",
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   margin: const EdgeInsets.symmetric(vertical: 5),
+                  //   padding:
+                  //       const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                  //   width: size.width * 0.8,
+                  //   decoration: BoxDecoration(
+                  //     color: kPrimaryLightColor,
+                  //     borderRadius: BorderRadius.circular(29),
+                  //   ),
+                  //   child: TextField(
+                  //     textInputAction: TextInputAction.next,
+                  //     onChanged: (value) {
+                  //       name = value;
+                  //     },
+                  //     cursorColor: kPrimaryColor,
+                  //     decoration: const InputDecoration(
+                  //       icon: Icon(
+                  //         Icons.fingerprint_outlined,
+                  //         color: kPrimaryColor,
+                  //       ),
+                  //       hintText: "Username",
+                  //       border: InputBorder.none,
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     padding:
@@ -307,7 +318,7 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                                 // "Password is not matched and Email is not correct",
                                 (password != value)
                                     ? "Password is not matched "
-                                    :"Email is not correct",
+                                    : "Email is not correct",
                                 style: const TextStyle(
                                     color: korangeColor,
                                     fontWeight: FontWeight.bold,
@@ -358,7 +369,7 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                       borderRadius: BorderRadius.circular(30),
                       child: ElevatedButton(
                         onPressed: () {
-                          if (password != password2 ) {
+                          if (password != password2) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 duration: Duration(milliseconds: 1000),
@@ -366,7 +377,7 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                                 content: Text(
                                   // "Password is not matched and Email is not correct",
                                   "Password is not matched",
-                                  style:  TextStyle(
+                                  style: TextStyle(
                                       color: korangeColor,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: fontfamily),
@@ -374,17 +385,12 @@ class _MediaQueryWidgetStateSignUp extends State<_MediaQueryWidgetSignUp> {
                                 ),
                               ),
                             );
-                          } else {
-                            Future.delayed(Duration.zero, () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return const UserDashboard();
-                                  },
-                                ),
-                              );
-                            });
+                          }else{
+                            print("Press print");
+                            NetworkHandlerSignupOTP completereg = NetworkHandlerSignupOTP();
+                            completereg.Signupcompletion(widget.email, dropdownValue, name, password, context);
+                            print("Press print");
+
                           }
                         },
                         child: const Text(
