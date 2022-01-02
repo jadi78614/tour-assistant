@@ -88,7 +88,8 @@ class WidgetStateWelcome extends State<WelcomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Text(
-                      ("Enjoy Every        "),
+                      "Enjoy Every        ",
+
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 40,

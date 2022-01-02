@@ -10,7 +10,7 @@ class NetworkHandlerForgotPassword {
 
   Future getOtp(email, context) async {
     http.Response response = await http
-        .get(Uri.parse('http://$urlmongo:3000/general/getotp/$email'));
+        .get(Uri.parse('http://$urlmongo/general/getotp/$email'));
     if (response.statusCode == 200) {
       String data = response.body;
       var decodeData = jsonDecode(data);
@@ -57,7 +57,7 @@ class NetworkHandlerForgotPassword {
 
   Future checkemail(email, context) async {
     http.Response response = await http
-        .get(Uri.parse('http://$urlmongo:3000/general/resetpassword/$email'));
+        .get(Uri.parse('http://$urlmongo/general/resetpassword/$email'));
     if (response.statusCode == 200) {
 
       dynamic code = await getOtp(email,context);
@@ -101,7 +101,7 @@ class NetworkHandlerForgotPassword {
 
   Future savenewpassword(email, context,newpassword) async {
     http.Response response = await http
-        .put(Uri.parse('http://$urlmongo:3000/general/resetpassword/$email/$newpassword'));
+        .put(Uri.parse('http://$urlmongo/general/resetpassword/$email/$newpassword'));
     if (response.statusCode == 200) {
 
       ScaffoldMessenger.of(context).showSnackBar(

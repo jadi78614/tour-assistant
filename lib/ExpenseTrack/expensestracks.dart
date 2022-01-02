@@ -46,7 +46,7 @@ class _TrackExpensesState extends State<TrackExpenses> {
     var decodeData;
     var id = widget.userid;
     http.Response response = await http
-        .get(Uri.parse("http://$urlmongo:3000/tourists/expense/balance/$id"));
+        .get(Uri.parse("http://$urlmongo/tourists/expense/balance/$id"));
     if (response.statusCode == 200) {
       String data = response.body;
       print("Response Data $data");
@@ -71,7 +71,7 @@ class _TrackExpensesState extends State<TrackExpenses> {
     var productMap;
     var id = widget.userid;
     http.Response response =
-        await http.get(Uri.parse("http://$urlmongo:3000/tourists/expense/$id"));
+        await http.get(Uri.parse("http://$urlmongo/tourists/expense/$id"));
     if (response.statusCode == 200) {
       data = response.body;
       print("Response Data $data");
@@ -115,7 +115,7 @@ class _TrackExpensesState extends State<TrackExpenses> {
   // void getDataToShow() async {
   //   count = 0;
   //   http.Response response = await http.get(Uri.parse(
-  //       "http://192.168.1.142:3000/tourist/expense/61b91cc9fb7f06cdf7877eba"));
+  //       "http://192.168.1.142/tourist/expense/61b91cc9fb7f06cdf7877eba"));
   //   if (response.statusCode == 200) {
   //     String data = response.body;
   //     print("Response Data $data");
@@ -287,7 +287,7 @@ class _TrackExpensesState extends State<TrackExpenses> {
                           String description = _textcontrollerITEM.text;
                           http.Response response = await http.post(
                               Uri.parse(
-                                  "http://$urlmongo:3000/tourists/create/expense/$id"),
+                                  "http://$urlmongo/tourists/create/expense/$id"),
                               body: {
                                 'expense':
                                     _isIncome ? "0" : value,

@@ -115,7 +115,7 @@ class ChatState extends State<Chat> {
       dynamic senderid = widget.sid;
       dynamic recieveid = widget.uid;
       print("recieverid $recieveid and senderid $senderid");
-      var url = Uri.parse('http://$urlmongo:3000/tourists/getmessages/driver/$senderid/$recieveid');
+      var url = Uri.parse('http://$urlmongo/tourists/getmessages/driver/$senderid/$recieveid');
 
       var response = await http.get(url);
       var message;
@@ -157,7 +157,7 @@ class ChatState extends State<Chat> {
       dynamic senderid = widget.sid;
       dynamic recieveid = widget.uid;
       messageC.clear();
-      var url = Uri.parse('http://$urlmongo:3000/tourists/sendmessages/driver/$senderid/$recieveid');
+      var url = Uri.parse('http://$urlmongo/tourists/sendmessages/driver/$senderid/$recieveid');
 
       var response = await http.post(url,body: {'msg':msg});
       // var url = Uri.parse("https://apilink?sid=" +

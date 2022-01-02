@@ -8,7 +8,7 @@ import 'package:testing_app/constants.dart';
 class GetChatData{
   Future getdata() async {
     http.Response response = await http.get(Uri.parse(
-        'http://$urlmongo:3000/tourists/getallchats/driver/61aa42cb867114c0b5b4631a'));
+        'http://$urlmongo/tourists/getallchats/driver/61aa42cb867114c0b5b4631a'));
     if (response.statusCode == 200) {
       String jsonStr = response.body;
       var decodeData = jsonDecode(jsonStr);

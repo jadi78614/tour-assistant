@@ -11,7 +11,7 @@ class NetworkHandlerEditProfile {
       case 'TourGuide':
         {
           http.Response response = await http
-              .get(Uri.parse('http://$urlmongo:3000/tourguide/getdata/$id'));
+              .get(Uri.parse('http://$urlmongo/tourguide/getdata/$id'));
           if (response.statusCode == 200) {
             String data = response.body;
             return jsonDecode(data);
@@ -37,7 +37,7 @@ class NetworkHandlerEditProfile {
       case 'Driver':
         {
           http.Response response = await http
-              .get(Uri.parse('http://$urlmongo:3000/driver/getdata/$id'));
+              .get(Uri.parse('http://$urlmongo/driver/getdata/$id'));
           if (response.statusCode == 200) {
             String data = response.body;
             return jsonDecode(data);
@@ -63,7 +63,7 @@ class NetworkHandlerEditProfile {
       case 'Hotel':
         {
           http.Response response = await http
-              .get(Uri.parse('http://$urlmongo:3000/hotel/getdata/$id'));
+              .get(Uri.parse('http://$urlmongo/hotel/getdata/$id'));
           if (response.statusCode == 200) {
             String data = response.body;
             return jsonDecode(data);
@@ -89,7 +89,7 @@ class NetworkHandlerEditProfile {
       case 'TourCompany':
         {
           http.Response response = await http
-              .get(Uri.parse('http://$urlmongo:3000/tourcompany/getdata/$id'));
+              .get(Uri.parse('http://$urlmongo/tourcompany/getdata/$id'));
           if (response.statusCode == 200) {
             String data = response.body;
             return jsonDecode(data);
@@ -115,7 +115,7 @@ class NetworkHandlerEditProfile {
       case 'Tourist':
         {
           http.Response response = await http
-              .get(Uri.parse('http://$urlmongo:3000/tourists/getdata/$id'));
+              .get(Uri.parse('http://$urlmongo/tourists/getdata/$id'));
           if (response.statusCode == 200) {
             String data = response.body;
             return jsonDecode(data);
@@ -142,7 +142,7 @@ class NetworkHandlerEditProfile {
 
 
     // http.Response response = await http
-    //     .get(Uri.parse('http://192.168.1.107:3000/tourists/getdata/$id'));
+    //     .get(Uri.parse('http://192.168.1.107/tourists/getdata/$id'));
     // if (response.statusCode == 200) {
     //   String data = response.body;
     //   return jsonDecode(data);
@@ -203,7 +203,7 @@ class NetworkHandlerEditProfile {
         {
           print("ID status $status");
           http.Response response = await http
-              .put(Uri.parse('http://$urlmongo:3000/tourguide/profile/$id'),
+              .put(Uri.parse('http://$urlmongo/tourguide/profile/$id'),
               body: {
                 'name': name,
                 'password': password,
@@ -251,7 +251,7 @@ class NetworkHandlerEditProfile {
         {
           print("ID status $status");
           http.Response response = await http
-              .put(Uri.parse('http://$urlmongo:3000/driver/profile/$id'),
+              .put(Uri.parse('http://$urlmongo/driver/profile/$id'),
               body: {
                 'name': name,
                 'password': password,
@@ -299,7 +299,7 @@ class NetworkHandlerEditProfile {
         {
           print("ID status $status");
           http.Response response = await http
-              .put(Uri.parse('http://$urlmongo:3000/hotel/profile/$id'),
+              .put(Uri.parse('http://$urlmongo/hotel/profile/$id'),
               body: {
                 'hotel_name': name,
                 'password': password,
@@ -347,7 +347,7 @@ class NetworkHandlerEditProfile {
         {
           print("ID status $status");
           http.Response response = await http
-              .put(Uri.parse('http://$urlmongo:3000/tourcompany/profile/$id'),
+              .put(Uri.parse('http://$urlmongo/tourcompany/profile/$id'),
               body: {
                 'biz_name': name,
                 'password': password,
@@ -395,7 +395,7 @@ class NetworkHandlerEditProfile {
         {
           print("ID status $status");
           http.Response response = await http
-              .put(Uri.parse('http://$urlmongo:3000/tourists/profile/$id'),
+              .put(Uri.parse('http://$urlmongo/tourists/profile/$id'),
               body: {
                 'name': name,
                 'password': password,

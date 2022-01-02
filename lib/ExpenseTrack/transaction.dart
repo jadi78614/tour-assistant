@@ -114,10 +114,11 @@ class _MyTransactionState extends State<MyTransaction> {
                       Padding(
                         padding: const EdgeInsets.only(right: 5),
                         child: GestureDetector(
+                          key: ValueKey("Delete"),
                           onTap: () async {
                             http.Response response = await http.delete(
                               Uri.parse(
-                                  "http://$urlmongo:3000/general/delete/expense/${widget.transactionid}"),
+                                  "http://$urlmongo/general/delete/expense/${widget.transactionid}"),
                             );
                             if (response.statusCode == 200) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -336,7 +337,7 @@ class _MyTransactionState extends State<MyTransaction> {
                           String description = _textcontrollerITEM.text;
                           http.Response response = await http.put(
                               Uri.parse(
-                                  "http://$urlmongo:3000/general/update/expense/$id"),
+                                  "http://$urlmongo/general/update/expense/$id"),
                               body: {
                                 'expense': _isIncome ? "0" : value,
                                 'income': _isIncome ? value : "0",

@@ -9,7 +9,7 @@ class NetworkHandlerSignupOTP {
   Future getOtp(email, context) async {
 
     http.Response response1 = await http
-        .get(Uri.parse('http://$urlmongo:3000/general/resetpassword/$email'));
+        .get(Uri.parse('http://$urlmongo/general/resetpassword/$email'));
     if(response1.statusCode == 200){
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -29,7 +29,7 @@ class NetworkHandlerSignupOTP {
     }
     else{
       http.Response response = await http
-          .get(Uri.parse('http://$urlmongo:3000/general/getotp/$email'));
+          .get(Uri.parse('http://$urlmongo/general/getotp/$email'));
       if (response.statusCode == 200) {
         String data = response.body;
         var decodeData = jsonDecode(data);
@@ -89,7 +89,7 @@ class NetworkHandlerSignupOTP {
         {
           print("$email , $password , $name");
           http.Response response = await http.post(
-              Uri.parse('http://$urlmongo:3000/tourists/signup'),
+              Uri.parse('http://$urlmongo/tourists/signup'),
               body: {'email': email, 'password': password, 'name': name});
           if (response.statusCode == 200) {
             Navigator.pop(context);
@@ -142,7 +142,7 @@ class NetworkHandlerSignupOTP {
       case 'Tour Company':
         {
           http.Response response = await http.post(
-              Uri.parse('http://$urlmongo:3000/tourcompany/signup'),
+              Uri.parse('http://$urlmongo/tourcompany/signup'),
               body: {'email': email, 'password': password, 'biz_name': name});
           if (response.statusCode == 200) {
             Navigator.pop(context);
@@ -194,7 +194,7 @@ class NetworkHandlerSignupOTP {
       case 'Driver':
         {
           http.Response response = await http.post(
-              Uri.parse('http://$urlmongo:3000/driver/signup'),
+              Uri.parse('http://$urlmongo/driver/signup'),
               body: {'email': email, 'password': password, 'name': name});
           if (response.statusCode == 200) {
             Navigator.pop(context);
@@ -246,7 +246,7 @@ class NetworkHandlerSignupOTP {
       case 'Tour Guide':
         {
           http.Response response = await http.post(
-              Uri.parse('http://$urlmongo:3000/tourguide/signup'),
+              Uri.parse('http://$urlmongo/tourguide/signup'),
               body: {'email': email, 'password': password, 'name': name});
           if (response.statusCode == 200) {
             Navigator.pop(context);
@@ -298,7 +298,7 @@ class NetworkHandlerSignupOTP {
       case 'Hotel':
         {
           http.Response response = await http.post(
-              Uri.parse('http://$urlmongo:3000/hotel/signup'),
+              Uri.parse('http://$urlmongo/hotel/signup'),
               body: {'email': email, 'password': password, 'hotel_name': name});
           if (response.statusCode == 200) {
             Navigator.pop(context);

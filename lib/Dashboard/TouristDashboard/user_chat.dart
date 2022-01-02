@@ -62,7 +62,7 @@ class _ChatTouristState extends State<ChatTourist> {
     //print("in get data flutter ");
     String id =widget.stringid;
     http.Response response = await http.get(Uri.parse(
-        'http://$urlmongo:3000/tourists/getallchats/driver/$id'));
+        'http://$urlmongo/tourists/getallchats/driver/$id'));
     String jsonStr = response.body;
     var decodeData = jsonDecode(jsonStr);
     var productMap;

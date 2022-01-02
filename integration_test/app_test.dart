@@ -60,10 +60,10 @@ void main() {
         'and tap on the currency converter and enter amount for converting and tap'
         ' on the convert button',
             (WidgetTester tester) async {
-              await Future.delayed(const Duration(seconds: 4), (){});
+
           app.main();
           // await Future.delayed(const Duration(seconds: 5), (){});
-          await tester.pumpAndSettle();
+          await tester.pumpAndSettle(Duration(seconds: 5));
 
           // Verify the counter starts at 0.
           // expect(find.text('0'), findsOneWidget);
@@ -76,7 +76,6 @@ void main() {
           // Emulate a tap on the floating action button.
           await tester.tap(lgs_b);
 
-          // Trigger a frame.
           await tester.pumpAndSettle();
 
           // Verify the counter increments by 1.
@@ -526,10 +525,76 @@ void main() {
               await Future.delayed(const Duration(seconds: 5), (){});
 
         });
+
+
+
   });
 
 
-
+  // testWidgets('Tap on lets go button and then enter the credentials and tap on'
+  //     ' the login button and ask for the location permission, opens the drawer '
+  //     'and tap on the delete expenses',
+  //         (WidgetTester tester) async {
+  //       app.main();
+  //       // await Future.delayed(const Duration(seconds: 5), (){});
+  //       await tester.pumpAndSettle();
+  //
+  //       // Verify the counter starts at 0.
+  //       // expect(find.text('0'), findsOneWidget);
+  //       expect(find.text('Enjoy Every        '), findsOneWidget);
+  //
+  //
+  //       // Finds the floating action button to tap on.
+  //       final Finder lgs_b = find.widgetWithText(ElevatedButton, "Let's Get Started");
+  //
+  //       // Emulate a tap on the floating action button.
+  //       await tester.tap(lgs_b);
+  //
+  //       // Trigger a frame.
+  //       await tester.pumpAndSettle();
+  //
+  //       // Verify the counter increments by 1.
+  //       expect(find.text('Login '), findsOneWidget);
+  //
+  //       // await tester.enterText(find.text("Username or Email"), 'ali@gmail.com');
+  //       await tester.enterText(find.byKey(Key('username')), 'ali@gmail.com');
+  //       await tester.enterText(find.byKey(Key('password')), '123456');
+  //       // await tester.enterText(find.byType(TextField), '123456');
+  //
+  //       final Finder login = find.widgetWithText(ElevatedButton, "LOGIN");
+  //
+  //       // Emulate a tap on the floating action button.
+  //       await tester.tap(login);
+  //
+  //
+  //       await tester.pumpAndSettle(Duration(seconds: 4));
+  //       // await Future.delayed(const Duration(seconds: 10), (){});
+  //
+  //       final Finder drawer = find.byIcon(Icons.menu);
+  //
+  //       await tester.tap(drawer);
+  //       // Trigger a frame.
+  //       await tester.pumpAndSettle();
+  //       // await Future.delayed(const Duration(seconds: 5), (){});
+  //       final Finder trackexpences = find.text("Track Expenses");
+  //
+  //       // Emulate a tap on the floating action button.
+  //       await tester.tap(trackexpences);
+  //       // Trigger a frame.
+  //       await tester.pumpAndSettle();
+  //       await Future.delayed(const Duration(seconds: 5), (){});
+  //       // await Future.delayed(const Duration(seconds: 5), (){});
+  //
+  //
+  //
+  //       final Finder delete = find.byIcon(Icons.delete);
+  //       await tester.pumpAndSettle();
+  //       await tester.tap(delete);
+  //       await tester.pumpAndSettle();
+  //
+  //       await Future.delayed(const Duration(seconds: 5), (){});
+  //
+  //     });
   // group('welcome-to-edit_profile', () {
   //   // testWidgets('Tap on lets go button and then enter the credentials and tap on'
   //   //     ' the login button and ask for the location permission, opens the drawer '

@@ -11,7 +11,7 @@ import 'package:testing_app/Dashboard/TourGuide/tourguide_dashboard.dart';
 class NetworkHandlerLogin {
   void getData(email, password, context) async {
     http.Response response = await http.get(
-        Uri.parse('http://$urlmongo:3000/general/login/$email/$password'));
+        Uri.parse('http://$urlmongo/general/login/$email/$password'));
     if (response.statusCode == 200) {
       String data = response.body;
       print("Response Data $data");

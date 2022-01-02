@@ -16,6 +16,7 @@ import 'package:testing_app/Signup/signup_screen.dart';
 import 'package:testing_app/Signup/singupemailverification.dart';
 import 'package:testing_app/Weather/screens/city_screen.dart';
 import 'package:testing_app/Weather/screens/loading_screen.dart';
+import 'package:testing_app/constants.dart';
 import 'package:testing_app/currencyconverter/home.dart';
 import 'package:testing_app/main.dart';
 import 'package:integration_test/integration_test.dart';
@@ -98,166 +99,183 @@ Widget Currencyconverter = MediaQuery(
     data: MediaQueryData(),
     child: MaterialApp(
         home: Scaffold(
-          body: CurrencyConverterScreen(),
-        )));
-
-Widget manageexpense = MediaQuery(
-    data: MediaQueryData(),
-    child: MaterialApp(
-        home: Scaffold(
-          body: CurrencyConverterScreen(),
-        )));
-
-
+      body: CurrencyConverterScreen(),
+    )));
 
 Future<void> main() async {
 
-  group(("Welcome Screen tests"),(){
+
+  group(("Welcome Screen tests"), () {
+
     testWidgets('Test Welcome Screen button', (WidgetTester tester) async {
-
-      const childWidget = Padding(padding: EdgeInsets.zero);
-      // Provide the childWidget to the Container.
-      await tester.pumpWidget(Container(child: childWidget));
-
       await tester.pumpWidget(welcomescreen);
-      expect(find.text('Let\'s Get Started'), findsOneWidget);
+      expect(find.text('Let\'s Get Strted'), findsOneWidget);
     });
 
-    testWidgets('Test Welcome Screen Text 1', (WidgetTester tester) async{
+    testWidgets('Test Welcome Screen Text 1', (WidgetTester tester) async {
       await tester.pumpWidget(welcomescreen);
-      expect(find.text('Enjoy Every        '), findsOneWidget);
+      const childWidget = Text(
+        "Enjoy Every        ",
+        style: TextStyle(
+          fontWeight: FontWeight.w800,
+          fontSize: 45,
+          color: korangeColor,
+        ),
+        textAlign: TextAlign.left,
+      );
+      expect(
+        find.byWidget(childWidget),
+          findsOneWidget
+      );
+
     });
+
 
     testWidgets('Test Welcome Screen Text 2', (WidgetTester tester) async {
       await tester.pumpWidget(welcomescreen);
       expect(find.text('Moment With Us '), findsOneWidget);
     });
+
+    testWidgets('Welcome Screen Lets Go Button', (WidgetTester tester) async {
+      await tester.pumpWidget(welcomescreen);
+      final Finder textbuttun =
+          find.widgetWithText(ElevatedButton, "Let's Get Started");
+      await tester.tap(textbuttun);
+      await tester.pump();
+      // expect(find.text('Moment With Us '), findsOneWidget);
+    });
   });
 
+  group(("Login Screen tests"), () {
 
-  group(("Login Screen tests"),(){
     testWidgets('Login Screen Testing login Text', (WidgetTester tester) async {
       await tester.pumpWidget(loginscreen);
       expect(find.text('Login '), findsOneWidget);
     });
 
-    testWidgets('Login Screen Testing login Email TextField', (WidgetTester tester) async{
+    testWidgets('Login Screen Testing login Email TextField',
+        (WidgetTester tester) async {
       await tester.pumpWidget(loginscreen);
       expect(find.byKey(Key('username')), findsOneWidget);
     });
 
-    testWidgets('Login Screen Testing Password TextField', (WidgetTester tester) async {
+    testWidgets('Login Screen Testing Password TextField',
+        (WidgetTester tester) async {
       await tester.pumpWidget(loginscreen);
       expect(find.byKey(Key('password')), findsOneWidget);
     });
 
-    testWidgets('Login Screen Testing Forgot Password', (WidgetTester tester) async {
+    testWidgets('Login Screen Testing Forgot Password',
+        (WidgetTester tester) async {
       await tester.pumpWidget(loginscreen);
       expect(find.text('Forgot password ?'), findsOneWidget);
     });
+
+    testWidgets('Login Screen login button', (WidgetTester tester) async {
+      await tester.pumpWidget(loginscreen);
+      final Finder textbuttun = find.widgetWithText(ElevatedButton, "LOGIN");
+      await tester.tap(textbuttun);
+      await tester.pump();
+      // expect(find.text('Moment With Us '), findsOneWidget);
+    });
   });
 
-  group(("SignUp Verification Screen tests"),(){
-
-    testWidgets('Signup Screen Testing Signup Text', (WidgetTester tester) async {
+  group(("SignUp Verification Screen tests"), () {
+    testWidgets('Signup Screen Testing Signup Text',
+        (WidgetTester tester) async {
       await tester.pumpWidget(signupverification);
       expect(find.text('Signup '), findsOneWidget);
     });
 
-    testWidgets('Signup Screen Testing Singup textfield', (WidgetTester tester) async{
+    testWidgets('Signup Screen Testing Singup textfield',
+        (WidgetTester tester) async {
       await tester.pumpWidget(signupverification);
       expect(find.byKey(Key('Email')), findsOneWidget);
     });
 
-    testWidgets('Signup Screen Testing Enter OTP textfield', (WidgetTester tester) async{
+    testWidgets('Signup Screen Testing Enter OTP textfield',
+        (WidgetTester tester) async {
       await tester.pumpWidget(signupverification);
-      expect(find.byKey(ValueKey("otp"),), findsOneWidget);
+      expect(
+          find.byKey(
+            Key("otp"),
+          ),
+          findsOneWidget);
     });
 
-    testWidgets('Signup Screen Testing Send OTP Button', (WidgetTester tester) async{
+    testWidgets('Signup Screen Testing Send OTP Button',
+        (WidgetTester tester) async {
       await tester.pumpWidget(signupverification);
-      final Finder textbuttun =
-      find.widgetWithText(TextButton, "Send OTP");
+      final Finder textbuttun = find.widgetWithText(TextButton, "Send OTP");
       await tester.tap(textbuttun);
       await tester.pump();
       // expect(find.text('Moment With Us '), findsOneWidget);
     });
 
-
-    testWidgets('Signup Screen Testing Enter OTP Button', (WidgetTester tester) async{
+    testWidgets('Signup Screen Testing Enter OTP Button',
+        (WidgetTester tester) async {
       await tester.pumpWidget(signupverification);
       final Finder elevatedbuttun =
-      find.widgetWithText(ElevatedButton, "Enter Otp");
+          find.widgetWithText(ElevatedButton, "Enter Otp");
       await tester.tap(elevatedbuttun);
       await tester.pump();
       // expect(find.text('Moment With Us '), findsOneWidget);
     });
-
   });
 
-
-  group(("Forgot Password Screen tests"),(){
-
+  group(("Forgot Password Screen tests"), () {
     testWidgets('Forgot Password screen text', (WidgetTester tester) async {
       await tester.pumpWidget(forgotpwdscreen);
       expect(find.text('Reset Password'), findsOneWidget);
     });
 
-    testWidgets('Forgot Password screen OTP field test', (WidgetTester tester) async{
+    testWidgets('Forgot Password screen OTP field test',
+        (WidgetTester tester) async {
       await tester.pumpWidget(forgotpwdscreen);
       expect(find.byKey(Key('email')), findsOneWidget);
     });
 
-
-    testWidgets('Forgot Password screen Button test', (WidgetTester tester) async{
+    testWidgets('Forgot Password screen Button test',
+        (WidgetTester tester) async {
       await tester.pumpWidget(forgotpwdscreen);
       final Finder elevatedbuttun =
-            find.widgetWithText(ElevatedButton, "Send OTP");
-        await tester.tap(elevatedbuttun);
-        await tester.pump();
-        // expect(find.text('Moment With Us '), findsOneWidget);
-    });
-  });
-
-  group(("Edit Profile Screen"),(){
-
-    testWidgets('Edit Profile Screen text', (WidgetTester tester) async {
-      await tester.pumpWidget(editprofilescreen);
-      expect(find.text('Profile'), findsOneWidget);
-    });
-
-    testWidgets('Edit Profile text name Field', (WidgetTester tester) async{
-      await tester.pumpWidget(editprofilescreen);
-      expect(find.byKey(Key('name')), findsOneWidget);
-    });
-
-    testWidgets('Edit Profile text address Field', (WidgetTester tester) async{
-      await tester.pumpWidget(editprofilescreen);
-      expect(find.byKey(Key('address')), findsOneWidget);
-    });
-
-    testWidgets('Edit Profile password Field', (WidgetTester tester) async{
-      await tester.pumpWidget(editprofilescreen);
-      expect(find.byKey(Key('password')), findsOneWidget);
-    });
-
-
-    testWidgets('Edit Profile screen Button test', (WidgetTester tester) async{
-      await tester.pumpWidget(editprofilescreen);
-      final Finder elevatedbuttun =
-      find.widgetWithText(ElevatedButton, "Update Profile");
+          find.widgetWithText(ElevatedButton, "Send OTP");
       await tester.tap(elevatedbuttun);
       await tester.pump();
       // expect(find.text('Moment With Us '), findsOneWidget);
     });
   });
 
+  group(("Edit Profile Screen"), () {
+    testWidgets('Edit Profile Screen text', (WidgetTester tester) async {
+      await tester.pumpWidget(editprofilescreen);
+      expect(find.text('Profile'), findsOneWidget);
+    });
 
+    testWidgets('Edit Profile text name Field', (WidgetTester tester) async {
+      await tester.pumpWidget(editprofilescreen);
+      expect(find.byKey(Key('name')), findsOneWidget);
+    });
 
+    testWidgets('Edit Profile text address Field', (WidgetTester tester) async {
+      await tester.pumpWidget(editprofilescreen);
+      expect(find.byKey(Key('address')), findsOneWidget);
+    });
 
+    testWidgets('Edit Profile password Field', (WidgetTester tester) async {
+      await tester.pumpWidget(editprofilescreen);
+      expect(find.byKey(Key('password')), findsOneWidget);
+    });
 
-
-
+    testWidgets('Edit Profile screen Button test', (WidgetTester tester) async {
+      await tester.pumpWidget(editprofilescreen);
+      final Finder elevatedbuttun =
+          find.widgetWithText(ElevatedButton, "Update Profile");
+      await tester.tap(elevatedbuttun);
+      await tester.pump();
+      // expect(find.text('Moment With Us '), findsOneWidget);
+    });
+  });
 
   //
   // test('Test Login Screen', () {

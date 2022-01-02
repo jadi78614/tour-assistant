@@ -6,7 +6,7 @@ const kPrimaryLightColor = Color(0xFFf0e5f1);
 
 const kPrimaryDarkColor = Color(0xFF19003a);
 
-const urlmongo = "10.113.55.134";
+const urlmongo = "apitourassistant.herokuapp.com";
 
 const korangeColor = Color(0xFFF99746);
 const korangelightcolor = Color(0xFFffc875);

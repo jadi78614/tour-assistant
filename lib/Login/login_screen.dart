@@ -224,7 +224,6 @@ class MediaQueryWidgetStateLogin extends State<_MediaQueryWidgetLogin> {
                             NetworkHandlerLogin getdata = NetworkHandlerLogin();
                             getdata.getData(email,password,context);
 
-                            print("Hello in elevated button");
                           }
                         else{
                           ScaffoldMessenger.of(context).showSnackBar(
